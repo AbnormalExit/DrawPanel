@@ -8,14 +8,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.emotiona.draw.dao.IBrush;
-import com.emotiona.draw.daoimpl.DrawPath;
-import com.emotiona.draw.daoimpl.paint.CircleBrush;
-import com.emotiona.draw.daoimpl.paint.NormalBrush;
+import com.emotiona.draw.brush.IBrush;
+import com.emotiona.draw.brush.impl.DrawPath;
+import com.emotiona.draw.brush.impl.CircleBrush;
+import com.emotiona.draw.brush.impl.NormalBrush;
+import com.emotiona.draw.view.DrawPanel;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private DrawCanvas mPanel;
+    private DrawPanel mPanel;
     private Button btn_red;
     private Button btn_green;
     private Button btn_blue;
@@ -28,17 +29,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawPath mPath;//绘制路径命令
     private IBrush mBrush;//笔触对象
 
+    private int mPaintWidth = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         mPaint = new Paint();
         mBrush = new NormalBrush();
-        setContentView(R.layout.activity_main);
+        mPaint.setStrokeWidth(mPaintWidth);
+        mPaint.setAntiAlias(true);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(0xFF0000FF);
         initView();
     }
 
     private void initView() {
-        mPanel = (DrawCanvas) findViewById(R.id.mPanel);
+        mPanel = (DrawPanel) findViewById(R.id.mPanel);
         btn_red = (Button) findViewById(R.id.btn_red);
         btn_green = (Button) findViewById(R.id.btn_green);
         btn_blue = (Button) findViewById(R.id.btn_blue);
@@ -61,22 +68,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_red:
-                mPaint = new Paint();
-                mPaint.setStrokeWidth(3);
+                mPaint=new Paint();
+                mPaint.setStrokeWidth(mPaintWidth);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFFFF0000);
                 break;
             case R.id.btn_green:
-                mPaint = new Paint();
-                mPaint.setStrokeWidth(3);
+                mPaint=new Paint();
+                mPaint.setStrokeWidth(mPaintWidth);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFF00FF00);
                 break;
             case R.id.btn_blue:
-                mPaint = new Paint();
-                mPaint.setStrokeWidth(3);
+                mPaint=new Paint();
+                mPaint.setStrokeWidth(mPaintWidth);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFF0000FF);
@@ -114,14 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mBrush.down(mPath.getPath(), event.getX(), event.getY());
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 mBrush.move(mPath.getPath(), event.getX(), event.getY());
+                addPath();
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 mBrush.up(mPath.getPath(), event.getX(), event.getY());
-                mPanel.add(mPath);
-                mPanel.isDrawing = true;
-                btn_undo.setEnabled(true);
-                btn_redo.setEnabled(false);
             }
             return true;
         }
+    }
+
+    /**
+     * add to draw path
+     */
+    private void addPath() {
+        mPanel.add(mPath);
+        mPanel.isDrawing = true;
+        btn_undo.setEnabled(true);
+        btn_redo.setEnabled(false);
     }
 }

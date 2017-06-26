@@ -1,4 +1,4 @@
-package com.emotiona.draw.dao;
+package com.emotiona.draw.brush;
 
 import android.graphics.Canvas;
 

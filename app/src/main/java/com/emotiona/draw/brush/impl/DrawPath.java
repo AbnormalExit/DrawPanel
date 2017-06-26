@@ -1,10 +1,10 @@
-package com.emotiona.draw.daoimpl;
+package com.emotiona.draw.brush.impl;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import com.emotiona.draw.dao.IDraw;
+import com.emotiona.draw.brush.IDraw;
 
 /**
  * @author sxshi on 2016/10/11.

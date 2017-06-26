@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="com.emotiona.draw.MainActivity">
 
-    <com.emotiona.draw.DrawCanvas
+    <com.emotiona.draw.view.DrawPanel
         android:id="@+id/mPanel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
