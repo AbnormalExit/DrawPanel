@@ -96,7 +96,6 @@ public class DrawPanel extends SurfaceView implements SurfaceHolder.Callback {
                             mBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
                         }
                         Canvas c = new Canvas(mBitmap);
-                        c.drawColor(Color.parseColor("#D6D7D7"), PorterDuff.Mode.CLEAR);
                         drawInvoker.execute(c);
                         canvas.drawBitmap(mBitmap, 0, 0, null);
                     } finally {
