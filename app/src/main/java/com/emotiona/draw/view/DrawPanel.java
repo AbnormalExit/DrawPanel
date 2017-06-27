@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -108,5 +106,14 @@ public class DrawPanel extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+    }
+
+    /**
+     * @return save bitmap
+     */
+    public Bitmap buildBitmap() {
+        Bitmap result = Bitmap.createBitmap(mBitmap);
+        destroyDrawingCache();
+        return result;
     }
 }

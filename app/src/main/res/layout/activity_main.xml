@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgColor"
     android:orientation="vertical"
     tools:context="com.emotiona.draw.MainActivity">
 
@@ -10,8 +11,7 @@
         android:id="@+id/mPanel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="蓝色" />
+        <Button
+            android:id="@+id/btn_eraser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="橡皮擦" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +66,7 @@
             android:layout_weight="1"
             android:text="原型画笔" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
