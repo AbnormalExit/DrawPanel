@@ -3,6 +3,7 @@ package com.emotiona.draw;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -53,9 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int MSG_SAVE_SUCCESS = 1;
     private static final int MSG_SAVE_FAILED = 2;
 
-    private Xfermode xfermode;
-    private boolean mCanEraser;
-    private PaintMode paintMode = PaintMode.DRAW;
+    private boolean isEraser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-        xfermode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
     }
 
     /**
@@ -85,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initNormalPaint() {
         mPaint = new Paint();
         mBrush = new NormalBrush();
+        mPaint.setFilterBitmap(true);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(mPaintSize);
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.STROKE);
@@ -157,34 +158,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_red:
-                paintMode = PaintMode.DRAW;
+                isEraser = false;
                 mPaint = new Paint();
+                mPaint.setXfermode(null);
                 mPaint.setStrokeWidth(mPaintSize);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFFFF0000);
                 break;
             case R.id.btn_green:
-                paintMode = PaintMode.DRAW;
+                isEraser = false;
                 mPaint = new Paint();
+                mPaint.setXfermode(null);
                 mPaint.setStrokeWidth(mPaintSize);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFF00FF00);
                 break;
             case R.id.btn_blue:
-                paintMode = PaintMode.DRAW;
+                isEraser = false;
                 mPaint = new Paint();
+                mPaint.setXfermode(null);
                 mPaint.setStrokeWidth(mPaintSize);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(0xFF0000FF);
                 break;
             case R.id.btn_eraser:
-                if (mCanEraser) {
-                    Log.d(TAG, "onClick: eraser");
-                    paintMode = PaintMode.ERASER;
-                }
+                isEraser = true;
+                mPaint = new Paint();
+                mPaint.setColor(Color.rgb(218, 210, 213));
+                mPaint.setAntiAlias(true);
+                mPaint.setStyle(Paint.Style.STROKE);
+                mPaint.setStrokeWidth(mEeaserSize);
                 break;
             case R.id.btn_normal:
                 mBrush = new NormalBrush();
@@ -215,13 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Log.d(TAG, "onTouch: down");
                 mPath = new DrawPath();
-                if (paintMode == PaintMode.DRAW) {
-                    mPaint.setXfermode(null);
-                    mPaint.setStrokeWidth(mPaintSize);
-                } else {
-                    mPaint.setXfermode(xfermode);
-                    mPaint.setStrokeWidth(mEeaserSize);
-                }
+                if (isEraser) mPath.setPaintMode(PaintMode.ERASER);
                 mPath.setPaint(mPaint);
                 mPath.setPath(new Path());
                 mBrush.down(mPath.getPath(), event.getX(), event.getY());
@@ -231,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 addPath();
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 mBrush.up(mPath.getPath(), event.getX(), event.getY());
-                mCanEraser = true;
                 Log.d(TAG, "onTouch: up");
             }
             return true;
