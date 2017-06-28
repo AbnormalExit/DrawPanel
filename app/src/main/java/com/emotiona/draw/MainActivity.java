@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_eraser:
                 isEraser = true;
                 mPaint = new Paint();
-                mPaint.setColor(Color.rgb(218, 210, 213));
+                mPaint.setColor(0xFF0000FF);
                 mPaint.setAntiAlias(true);
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setStrokeWidth(mEeaserSize);

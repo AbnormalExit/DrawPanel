@@ -3,21 +3,15 @@ package com.emotiona.draw.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.emotiona.draw.R;
 import com.emotiona.draw.brush.impl.DrawPath;
 import com.emotiona.draw.invoker.DrawInvoker;
-import com.emotiona.draw.invoker.PaintMode;
 
 /**
  * @author sxshi on 2016/10/11.
@@ -34,7 +28,6 @@ public class DrawPanel extends SurfaceView implements SurfaceHolder.Callback {
     private DrawInvoker drawInvoker;//绘制命令请求对象
     private DrawThread drawThread;//绘制线程
 
-    private boolean isEraser = false;
 
     public DrawPanel(Context context, AttributeSet attrs) {
         super(context, attrs);
